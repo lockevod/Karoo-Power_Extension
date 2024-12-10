@@ -21,11 +21,12 @@ After installing this app on your Karoo, you need to configure the power extensi
 
 ## Known issues
 
-Power meter is not 100% accurate, it is only a estimation based in power formula. It is not possible to get the real power data from the Karoo without a power meter.
+- Power meter is not 100% accurate, it is only a estimation based in power formula. It is not possible to get the real power data from the Karoo without a power meter.
 There is currently a big important parameter that is not considered in the power estimation, the wind. The wind can change the power needed to maintain a speed. 
 I am working to add this parameter in the power estimation, but you can introduce the headwind speed manually in the configuration.
 A not very good estimation for this is take the value from this https://headwind.app/ or use 0.0 as default value.
 
+- Tested only with Karoo 3 and Metric configuration.
 
 ## Credits
 
