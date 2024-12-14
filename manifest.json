@@ -3,6 +3,7 @@
   "packageName": "com.enderthor.kpower",
   "latestApkUrl": "https://github.com/lockevod/Karoo-Power_Extension/releases/download/latest/kpower.apk",
   "latestVersion": "1.2",
+  "latestVersionCode": 12345,
   "developer": "Enderthor",
   "description": "This extension for Karoo devices adds a device simulates a virtual power meter.\n\n",
   "releaseNotes": "First revision."
