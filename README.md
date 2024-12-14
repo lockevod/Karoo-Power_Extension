@@ -35,8 +35,8 @@ Openweathermap is a free service, but you need to create an account and get an A
 ## Known issues
 
 - Power meter is not 100% accurate, it is only a estimation based in power formula. It is not possible to get the real power data from the Karoo without a power meter.
-There is currently a big important parameter that is not considered in the power estimation, the wind. The wind can change the power needed to maintain a speed. 
-I am working to add this parameter in the power estimation, but you can introduce the headwind speed manually in the configuration.
+There is currently a big important parameter in the power estimation, the wind. The wind can change the power needed to maintain a speed. 
+Now you can use openmeteo, openweathermap and you can introduce, also, the headwind speed manually in the configuration.
 A not very good estimation for this is take the value from this https://headwind.app/ or use 0.0 as default value.
 
 - Tested only with Karoo 3 and Metric configuration (this will be improved in the future).
