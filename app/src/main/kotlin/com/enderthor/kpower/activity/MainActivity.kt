@@ -14,11 +14,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 
-
 import com.enderthor.kpower.screens.TabLayout
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
 
 @Composable
 fun Main(

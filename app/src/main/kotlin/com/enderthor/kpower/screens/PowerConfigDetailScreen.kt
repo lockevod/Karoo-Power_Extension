@@ -1,38 +1,15 @@
 package com.enderthor.kpower.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,15 +18,15 @@ import androidx.compose.ui.unit.dp
 import com.enderthor.kpower.data.ConfigData
 import io.hammerhead.karooext.KarooSystemService
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updatedConfigData: ConfigData?) -> Unit, onCancel: () -> Unit){
+fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updatedConfigData: ConfigData?) -> Unit, onCancel: () -> Unit) {
     val ctx = LocalContext.current
     val karooSystem = remember { KarooSystemService(ctx) }
     LaunchedEffect(Unit) {
-        karooSystem.connect{}
+        karooSystem.connect {}
     }
-
 
     var title by remember { mutableStateOf(configdata.name) }
     var bikeMass by remember { mutableStateOf(configdata.bikeMass) }
@@ -59,16 +36,19 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
     var deleteDialogVisible by remember { mutableStateOf(false) }
     var powerLoss by remember { mutableStateOf(configdata.powerLoss) }
     var frontalArea by remember { mutableStateOf(configdata.frontalArea) }
-    var headwind by remember { mutableStateOf(configdata.headwind) }
+    var headwind by remember { mutableStateOf(configdata.headwindconf) }
+    var apikey by remember { mutableStateOf(configdata.apikey) }
+    var isOpenWeather by remember { mutableStateOf(configdata.isOpenWeather) }
 
 
     fun getUpdatedConfigData(): ConfigData = ConfigData(
-        configdata.id, title, isActive, bikeMass, rollingResistanceCoefficient, dragCoefficient, frontalArea, powerLoss, headwind)
+        configdata.id, title, isActive, bikeMass, rollingResistanceCoefficient, dragCoefficient, frontalArea, powerLoss, headwind, isOpenWeather, apikey
+    )
 
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
-        TopAppBar(title = { Text(if(isCreating) "Create Power Config" else "Edit Power Config") })
+        TopAppBar(title = { Text(if (isCreating) "Create Power Config" else "Edit Power Config") })
         Column(modifier = Modifier
             .padding(5.dp)
             .verticalScroll(rememberScrollState())
@@ -83,8 +63,8 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
                 singleLine = true
             )
 
-            OutlinedTextField(value =rollingResistanceCoefficient.toString(), modifier = Modifier.fillMaxWidth(),
-                onValueChange = {rollingResistanceCoefficient = it },
+            OutlinedTextField(value = rollingResistanceCoefficient.toString(), modifier = Modifier.fillMaxWidth(),
+                onValueChange = { rollingResistanceCoefficient = it },
                 label = { Text("Crr") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
@@ -96,7 +76,7 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
                 singleLine = true
             )
             OutlinedTextField(value = frontalArea.toString(), modifier = Modifier.fillMaxWidth(),
-                onValueChange = { dragCoefficient = it },
+                onValueChange = { frontalArea = it },
                 label = { Text("Frontal Area") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
@@ -116,13 +96,32 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
                 suffix = { Text("m/s") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                enabled = !isActive
+                enabled = !isActive && !isOpenWeather
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Switch(checked = isActive, onCheckedChange = { isActive = it})
+                Switch(checked = isActive, onCheckedChange = {
+                    isActive = it
+                    if (it) isOpenWeather = false
+                })
                 Spacer(modifier = Modifier.width(10.dp))
                 Text("Headwind automatic?")
+            }
+
+            OutlinedTextField(value = apikey.toString(), modifier = Modifier.fillMaxWidth(),
+                onValueChange = { apikey = it },
+                label = { Text("API OpenWeather") },
+                singleLine = true,
+                enabled = isOpenWeather
+            )
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Switch(checked = isOpenWeather, onCheckedChange = {
+                    isOpenWeather = it
+                    if (it) isActive = false
+                })
+                Spacer(modifier = Modifier.width(10.dp))
+                Text("OpenWeather API?")
             }
 
             FilledTonalButton(modifier = Modifier
@@ -144,32 +143,6 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
                 Spacer(modifier = Modifier.width(5.dp))
                 Text("Cancel")
             }
-            /*
-            if (!isCreating) {
-                FilledTonalButton(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp), onClick = {
-                    deleteDialogVisible = true
-                }) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete Power Config")
-                    Text("Delete")
-                }
-            }
-
-            if (deleteDialogVisible){
-                AlertDialog(onDismissRequest = { deleteDialogVisible = false },
-                    confirmButton = { Button(onClick = {
-                        deleteDialogVisible = false
-                        onSubmit(null)
-                    }) { Text("OK") }
-                    },
-                    dismissButton = { Button(onClick = {
-                        deleteDialogVisible = false
-                    }) { Text("Cancel") }
-                },
-                title = { Text("Delete Power Config") }, text = { Text("Really delete this config?") })
-            }
-            */
         }
     }
 }

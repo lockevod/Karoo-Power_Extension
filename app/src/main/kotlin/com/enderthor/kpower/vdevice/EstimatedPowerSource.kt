@@ -1,4 +1,4 @@
-package com.enderthor.kpower.data
+package com.enderthor.kpower.vdevice
 
 import android.content.Context
 
@@ -32,7 +32,11 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 import com.enderthor.kpower.activity.dataStore
+import com.enderthor.kpower.data.ConfigData
+import com.enderthor.kpower.data.RealKarooValues
+import com.enderthor.kpower.data.defaultConfigData
 import com.enderthor.kpower.screens.preferencesKey
+import kotlinx.coroutines.FlowPreview
 
 
 import timber.log.Timber
@@ -60,9 +64,10 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
      *
      * @see [DeviceEvent]
      */
-    fun connect(emitter: Emitter<DeviceEvent>) {
+    @OptIn(FlowPreview::class)
+    fun connect(emitter: Emitter<DeviceEvent>, extension: String) {
 
-        Timber.d("Init Connect Power Data")
+        Timber.d("Init Connect Power Estimator")
         val job = CoroutineScope(Dispatchers.IO).launch {
             // 2s searching
             emitter.onNext(OnConnectionStatus(ConnectionStatus.SEARCHING))
@@ -94,7 +99,9 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
             }
             karooSystem.addConsumer { user: UserProfile -> userMass = user.weight.toDouble()
                 Timber.d("User weight loaded as  ${user.weight} $user")
+
             }
+
             // Start subscribe data from Karoo events
 
             karooSystem.addConsumer(OnStreamState.StartStreaming(DataType.Type.SPEED)) { event: OnStreamState ->
@@ -104,21 +111,16 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
                 mutableState.update { currentState -> currentState.copy(slope = event.state) }
             }
 
-           karooSystem.addConsumer(OnStreamState.StartStreaming(DataType.Type.PRESSURE_ELEVATION_CORRECTION)) { event: OnStreamState ->
+            karooSystem.addConsumer(OnStreamState.StartStreaming(DataType.Type.PRESSURE_ELEVATION_CORRECTION)) { event: OnStreamState ->
                 mutableState.update { currentState -> currentState.copy(elevation = event.state) }
             }
 
-            /*
-            karooSystem.addConsumer(OnStreamState.StartStreaming("headwind")) { event: OnStreamState ->
+            karooSystem.addConsumer(OnStreamState.StartStreaming(DataType.dataTypeId(extension, "powerheadwind"))) { event: OnStreamState ->
                 mutableState.update { currentState -> currentState.copy(headwind = event.state) }
             }
-            */
-            // Start streaming data
-
             powerConfigsFlow.collect { powerconfigs ->
                 repeat(Int.MAX_VALUE)
                 {
-
 
                     var speed = if (state.value.speed is StreamState.Streaming ) {
                         (state.value.speed as StreamState.Streaming).dataPoint.singleValue
@@ -140,19 +142,27 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
                         0.0
                     }
 
-
-                    /*var headwind: Double = if (state.value.headwind is StreamState.Streaming) {
-                        (state.value.headwind as StreamState.Streaming).dataPoint.singleValue
-                            ?: 0.0
+                    if (state.value.headwind is StreamState.Streaming) {
+                        Timber.d("Init data: windorig is " + (state.value.headwind as StreamState.Streaming).dataPoint.singleValue)
                     } else {
-                        0.0
-                    }*/
+                        Timber.d("Init data: No existe")
 
+                    }
+                    Timber.d("Init data: windorig is " + powerconfigs[0].isActive)
+                    var finalHeadwind = if (powerconfigs[0].isActive )
+                    {
+                       if (state.value.headwind is StreamState.Streaming)
+                       {
+                           (state.value.headwind as StreamState.Streaming).dataPoint.singleValue
+                               ?: 0.0
+                       }else {
+                               0.0
+                       }
+                    } else {
+                        powerconfigs[0].headwindconf.toDouble()
+                    }
 
-                    val final_headwind = if (powerconfigs[0].isActive) 0.0 else 0.0
-
-
-                    Timber.d(" Init data: Speed is $speed, Slope is $slope, Elevation is $elevation, Windspeed is $final_headwind")
+                    Timber.d("Init data: Speed is $speed, Slope is $slope, Elevation is $elevation, Windspeed is $finalHeadwind")
 
                     val powerbike = CyclingWattageEstimator(
                         slope = slope / 100, // convert from percentage
@@ -161,7 +171,7 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
                         dragCoefficient = powerconfigs[0].dragCoefficient.toDouble(),
                         speed = speed , // in m/s
                         elevation = elevation,
-                        windSpeed = final_headwind , // in m/s
+                        windSpeed = finalHeadwind , // in m/s
                         powerLoss = powerconfigs[0].powerLoss.toDouble() / 100,
                         frontalArea = powerconfigs[0].frontalArea.toDouble(),
                     )

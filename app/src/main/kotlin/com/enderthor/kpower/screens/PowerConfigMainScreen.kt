@@ -17,13 +17,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
+
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -53,6 +51,7 @@ import androidx.navigation.navArgument
 import com.enderthor.kpower.activity.dataStore
 import com.enderthor.kpower.data.ConfigData
 import com.enderthor.kpower.data.defaultConfigData
+
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
@@ -76,6 +75,12 @@ fun ConfigDataAppNavHost(modifier: Modifier = Modifier, navController: NavHostCo
     }
 
     val ctx = LocalContext.current
+
+    /*LaunchedEffect(Unit) {
+        ctx.streamPreferences().collect { preferences ->
+            configDatas[0] = preferences
+        }
+    }*/
     LaunchedEffect(Unit) {
         ctx.dataStore.data.distinctUntilChanged().collect { t ->
             configDatas.clear()
@@ -85,7 +90,7 @@ fun ConfigDataAppNavHost(modifier: Modifier = Modifier, navController: NavHostCo
                 )
                 configDatas.addAll(entries)
             } catch(e: Throwable){
-                Timber.tag("kpower").e(e, "Failed to read preferences")
+                Timber.tag("kpower").e(e, "Failed to read preferences PCM")
             }
         }
     }
@@ -120,8 +125,8 @@ fun ConfigDataAppNavHost(modifier: Modifier = Modifier, navController: NavHostCo
         }
         composable(route = "create") {
             val nextConfigDataId = configDatas.maxOfOrNull { it.id + 1 } ?: 0
-            val newConfigData = ConfigData(nextConfigDataId,"default", true, "14.0","0.0095","0.8","0.9","2.2","0.0")
-
+            //val newConfigData = ConfigData(nextConfigDataId,"default", true, "14.0","0.0095","0.8","0.9","2.2","0.0", false, "")
+            val newConfigData = Json.decodeFromString<ConfigData>(defaultConfigData)
             val ctx = LocalContext.current
 
             DetailScreen(true, newConfigData, { updatedConfigData ->
