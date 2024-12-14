@@ -31,7 +31,7 @@ import timber.log.Timber
 import kotlin.time.Duration.Companion.minutes
 
 
-class KpowerExtension : KarooExtension("kpower", "1.0-beta")
+class KpowerExtension : KarooExtension("kpower", "1.1-beta")
 {
 
     lateinit var karooSystem: KarooSystemService
