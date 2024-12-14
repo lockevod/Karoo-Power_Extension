@@ -1,7 +1,8 @@
 # Karoo Power Extension
 
 > [!WARNING]  
-> This app is currently in beta stage and its main features might not work at all. 
+> This app is currently in beta stage and its main features might not work at all.
+> There is a bug with conversion between m/s and km/h (now you'll have more power...). I'll solve soon
 
 This extension for Karoo devices adds a device simulates a virtual power meter. You only need to add this power meter (settings -> sensors) and you can use all power fields.
 
