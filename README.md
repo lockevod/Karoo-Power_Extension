@@ -2,7 +2,7 @@
 
 > [!WARNING]  
 > This app is currently in beta stage and its main features might not work at all.
-> There is a bug with conversion between m/s and km/h (now you'll have more power...). I'll solve soon
+
 
 This extension for Karoo devices adds a device simulates a virtual power meter. You only need to add this power meter (settings -> sensors) and you can use all power fields.
 
@@ -10,15 +10,27 @@ Compatible with Karoo 2 and Karoo 3 devices running Karoo OS version 1.524.2003 
 
 ## Installation
 
-You can sideload the app.
+You can sideload the app using the following steps for Karoo 2
 
 1. Download the APK from the releases .
 2. Prepare your Karoo for sideloading by following the [step-by-step guide](https://www.dcrainmaker.com/2021/02/how-to-sideload-android-apps-on-your-hammerhead-karoo-1-karoo-2.html) by DC Rainmaker.
 3. Install the app using the command `adb install app-release.apk`.
 
+
+If you've Karoo 3 and v > 1.527 you can sideload the app using the following steps:
+
+1. Push link with apk (releases link) from your mobile.
+2. Share with Hammerhead companion app
+3. Install the app using the Hammerhead companion app.
+
 ## Usage
 
 After installing this app on your Karoo, you need to configure the power extension in the settings. Please read the Help tab in configuration, there are some useful information.
+This release has the following new features:
+- Updated power estimation formula.
+- Added wind speed parameter with openmeteo (from Timklge repository headwind).
+- Added wind speed using openweathermap, you need to get an API key from openweathermap and introduce it in the configuration.
+Openweathermap is a free service, but you need to create an account and get an API key. This service is more accurate than openmeteo, because it uses a lot of weather stations to get the wind speed.
 
 ## Known issues
 
