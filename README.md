@@ -39,7 +39,7 @@ There is currently a big important parameter that is not considered in the power
 I am working to add this parameter in the power estimation, but you can introduce the headwind speed manually in the configuration.
 A not very good estimation for this is take the value from this https://headwind.app/ or use 0.0 as default value.
 
-- Tested only with Karoo 3 and Metric configuration.
+- Tested only with Karoo 3 and Metric configuration (this will be improved in the future).
 
 ## Credits
 
