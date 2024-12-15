@@ -45,7 +45,7 @@ This release has the following new features:
 - Added wind speed parameter with openmeteo (from Timklge repository headwind).
 - Added FTP to smooth the power estimation.
 - Added wind speed using openweathermap.
-- 
+  
 ## Known issues
 
 - Power meter is not 100% accurate, it is only a estimation based in power formula. It is not possible to get the real power data from the Karoo without a power meter.
