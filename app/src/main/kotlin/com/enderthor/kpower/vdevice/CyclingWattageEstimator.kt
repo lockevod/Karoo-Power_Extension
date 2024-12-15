@@ -20,7 +20,19 @@ class CyclingWattageEstimator(
     private val windSpeed: Double,
     private val powerLoss: Double,
     private val elevation: Double,
+    private val ftp: Double
 ) {
+
+    fun smoothPower(estimatedPower: Double): Double {
+        val factor = when {
+            estimatedPower < 210 -> 2.8
+            estimatedPower <= 300 -> 2.5
+            estimatedPower <= 400 -> 2.2
+            else -> 1.7
+        }
+
+        return minOf(estimatedPower, maxOf(factor*ftp,450.0))
+    }
 
     fun calculateCyclingWattage(): Double {
 
@@ -33,7 +45,7 @@ class CyclingWattageEstimator(
        Timber.d("Force cycling calculation: gravityForce is $gravityForce, rollingResistance is $rollingResistanceForce,aerodynamicDrag is $aerodynamicDragForce")
        // Timber.d("Cycling Estimated Power is $estimatedPower")
 
-        return estimatedPower
+        return smoothPower(estimatedPower)
     }
 
     private fun calculateGravityForce(): Double {

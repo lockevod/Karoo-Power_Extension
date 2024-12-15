@@ -68,6 +68,7 @@ fun Help() {
             - **Frontal Area**: The area of your body that is exposed to the wind (m2)
             - **Power Losses**: Includes losses due to chain resistance and derailleur pulleys.
             - **Headwind**: The wind speed in the opposite direction of your movement. You can insert a constant headwind or check automatic option.
+            - **FTP**: Your Functional Threshold Power (in watts). If you don't know your FTP, you can use the default value of 200 watts.
             Automatic is not available at this moment (beta) then 0.0 m/s is used.
            
             Tested with karoo 3 (version > 1.524) and metric configuration.

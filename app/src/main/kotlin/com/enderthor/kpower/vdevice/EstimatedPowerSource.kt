@@ -174,6 +174,7 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
                         windSpeed = finalHeadwind , // in m/s
                         powerLoss = powerconfigs[0].powerLoss.toDouble() / 100,
                         frontalArea = powerconfigs[0].frontalArea.toDouble(),
+                        ftp = powerconfigs[0].ftp.toDouble()
                     )
                     Timber.d("Out Estimated Power is ${powerbike.calculateCyclingWattage()}")
                     emitter.onNext(

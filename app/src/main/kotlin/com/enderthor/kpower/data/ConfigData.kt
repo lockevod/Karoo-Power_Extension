@@ -29,7 +29,7 @@ data class ConfigData(
     val headwindconf: String,
     val isOpenWeather: Boolean,
     val apikey: String,
+    val ftp: String ,
     )
 
-val defaultConfigData = Json.encodeToString(listOf(ConfigData(0,"default", true, "14.0","0.0095","0.8","0.9","2.2","0.0", false, "")))
-
+val defaultConfigData = Json.encodeToString(listOf(ConfigData(0,"default", true, "14.0","0.0095","0.8","0.9","2.2","0.0", false, "","200")))

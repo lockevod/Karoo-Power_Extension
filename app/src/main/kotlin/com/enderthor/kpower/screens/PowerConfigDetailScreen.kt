@@ -39,10 +39,11 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
     var headwind by remember { mutableStateOf(configdata.headwindconf) }
     var apikey by remember { mutableStateOf(configdata.apikey) }
     var isOpenWeather by remember { mutableStateOf(configdata.isOpenWeather) }
+    var ftp by remember { mutableStateOf(configdata.ftp) }
 
 
     fun getUpdatedConfigData(): ConfigData = ConfigData(
-        configdata.id, title, isActive, bikeMass, rollingResistanceCoefficient, dragCoefficient, frontalArea, powerLoss, headwind, isOpenWeather, apikey
+        configdata.id, title, isActive, bikeMass, rollingResistanceCoefficient, dragCoefficient, frontalArea, powerLoss, headwind, isOpenWeather, apikey,ftp
     )
 
     Column(modifier = Modifier
@@ -55,7 +56,7 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
             .fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text("Title") }, modifier = Modifier.fillMaxWidth(), singleLine = true)
 
-            OutlinedTextField(value = bikeMass.toString(), modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(value = bikeMass, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { bikeMass = it },
                 label = { Text("Bike Mass") },
                 suffix = { Text("kg") },
@@ -63,26 +64,26 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
                 singleLine = true
             )
 
-            OutlinedTextField(value = rollingResistanceCoefficient.toString(), modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(value = rollingResistanceCoefficient, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { rollingResistanceCoefficient = it },
                 label = { Text("Crr") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )
-            OutlinedTextField(value = dragCoefficient.toString(), modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(value = dragCoefficient, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { dragCoefficient = it },
                 label = { Text("Cdr") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )
-            OutlinedTextField(value = frontalArea.toString(), modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(value = frontalArea, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { frontalArea = it },
                 label = { Text("Frontal Area") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 suffix = { Text("m2") },
             )
-            OutlinedTextField(value = powerLoss.toString(), modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(value = powerLoss, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { powerLoss = it },
                 label = { Text("Power Loss") },
                 suffix = { Text("%") },
@@ -90,7 +91,15 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
                 singleLine = true
             )
 
-            OutlinedTextField(value = headwind.toString(), modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(value = ftp, modifier = Modifier.fillMaxWidth(),
+                onValueChange = { ftp = it },
+                label = { Text("FTP") },
+                suffix = { Text("W") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true
+            )
+
+            OutlinedTextField(value = headwind, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { headwind = it },
                 label = { Text("Headwind") },
                 suffix = { Text("m/s") },

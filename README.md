@@ -1,8 +1,7 @@
 # Karoo Power Extension
 
 > [!WARNING]  
-> This app is currently in beta stage and its main features might not work at all.
-
+> This app is currently in beta stage and its main features might not work fine.
 
 This extension for Karoo devices adds a device simulates a virtual power meter. You only need to add this power meter (settings -> sensors) and you can use all power fields.
 
@@ -19,21 +18,34 @@ You can sideload the app using the following steps for Karoo 2
 
 If you've Karoo 3 and v > 1.527 you can sideload the app using the following steps:
 
-1. link with apk (releases link) from your mobile (https://github.com/lockevod/Karoo-Power_Extension/releases/latest/download/kpower.apk)
+1. Link with apk (releases link) from your mobile (https://github.com/lockevod/Karoo-Power_Extension/releases/latest/download/kpower.apk)
 2. Share with Hammerhead companion app
 3. Install the app using the Hammerhead companion app.
 
 
-
 ## Usage
 
-After installing this app on your Karoo, you need to configure the power extension in the settings. Please read the Help tab in configuration, there are some useful information.
+After installing this app on your Karoo, you need to configure the power extension in the settings.
+Please read the Help tab in configuration, there are some useful information because it's very important to configure with correct parameters.
+Power is an estimation and you need this parameters to get a good estimation.
+
+FTP is necessary to smooth the power estimation. If you don't know your FTP, you can use the following formula to get an estimation:
+FTP = 0.95 * 20 minutes power
+
+or use a value between 150 and 200 watts and adjust it later.
+
+Wind is a very important parameter to get a good estimation. You can use openmeteo, openweathermap or introduce the headwind speed manually.
+If you want to use openweathermap (better because they use near stations), you need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration. 
+
+
+## Features
+
 This release has the following new features:
 - Updated power estimation formula.
 - Added wind speed parameter with openmeteo (from Timklge repository headwind).
-- Added wind speed using openweathermap, you need to get an API key from openweathermap and introduce it in the configuration.
-Openweathermap is a free service, but you need to create an account and get an API key. This service is more accurate than openmeteo, because it uses a lot of weather stations to get the wind speed.
-
+- Added FTP to smooth the power estimation.
+- Added wind speed using openweathermap.
+- 
 ## Known issues
 
 - Power meter is not 100% accurate, it is only a estimation based in power formula. It is not possible to get the real power data from the Karoo without a power meter.
@@ -52,3 +64,5 @@ A not very good estimation for this is take the value from this https://headwind
 ## Links
 
 [karoo-ext source](https://github.com/hammerheadnav/karoo-ext)
+[openmeteo](https://open-meteo.com/)
+[openweathermap](https://openweathermap.org/)
