@@ -39,15 +39,18 @@ class CyclingWattageEstimator(
         val gravityForce = calculateGravityForce()
         val rollingResistanceForce = calculateRollingResistanceForce()
         val aerodynamicDragForce = calculateAerodynamicDragForce()
-        val estimatedPower = ((gravityForce + rollingResistanceForce + aerodynamicDragForce) * speed * (1 - powerLoss).pow(-1))
+        val estimatedPower = ((gravityForce + rollingResistanceForce + aerodynamicDragForce + calculateDynamicRollingResistanceForce()) * speed * (1 - powerLoss).pow(-1))
 
-       //Timber.d("Data for cycling calculation: totalMass is $totalMass, gravity is $gravity, dragCoefficient is $dragCoefficient, windSpeed is $windSpeed, powerLoss is $powerLoss, rollingResistanceCoefficient is $rollingResistanceCoefficient,  speed is $speed, slope is $slope")
+        //Timber.d("Data for cycling calculation: totalMass is $totalMass, gravity is $gravity, dragCoefficient is $dragCoefficient, windSpeed is $windSpeed, powerLoss is $powerLoss, rollingResistanceCoefficient is $rollingResistanceCoefficient,  speed is $speed, slope is $slope")
        Timber.d("Force cycling calculation: gravityForce is $gravityForce, rollingResistance is $rollingResistanceForce,aerodynamicDrag is $aerodynamicDragForce")
        // Timber.d("Cycling Estimated Power is $estimatedPower")
 
         return smoothPower(estimatedPower)
     }
 
+    private fun calculateDynamicRollingResistanceForce(): Double {
+        return 0.1 * cos(atan(slope))
+    }
     private fun calculateGravityForce(): Double {
         return gravity * sin(atan(slope)) * totalMass
     }
