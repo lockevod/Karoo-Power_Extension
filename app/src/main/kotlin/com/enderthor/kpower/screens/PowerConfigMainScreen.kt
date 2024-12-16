@@ -76,11 +76,6 @@ fun ConfigDataAppNavHost(modifier: Modifier = Modifier, navController: NavHostCo
 
     val ctx = LocalContext.current
 
-    /*LaunchedEffect(Unit) {
-        ctx.streamPreferences().collect { preferences ->
-            configDatas[0] = preferences
-        }
-    }*/
     LaunchedEffect(Unit) {
         ctx.dataStore.data.distinctUntilChanged().collect { t ->
             configDatas.clear()
@@ -124,8 +119,7 @@ fun ConfigDataAppNavHost(modifier: Modifier = Modifier, navController: NavHostCo
             }
         }
         composable(route = "create") {
-            val nextConfigDataId = configDatas.maxOfOrNull { it.id + 1 } ?: 0
-            //val newConfigData = ConfigData(nextConfigDataId,"default", true, "14.0","0.0095","0.8","0.9","2.2","0.0", false, "")
+
             val newConfigData = Json.decodeFromString<ConfigData>(defaultConfigData)
             val ctx = LocalContext.current
 
@@ -142,29 +136,19 @@ fun ConfigDataAppNavHost(modifier: Modifier = Modifier, navController: NavHostCo
             }, { navController.popBackStack() })
         }
         composable(route = "configDatas") {
-            MainScreen(configDatas, { configdata -> navController.navigate(route = "configdata/${configdata.id}") }, { navController.navigate(route = "create") })
+            MainScreen(configDatas, { configdata -> navController.navigate(route = "configdata/${configdata.id}") })
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(configDatas: MutableList<ConfigData>, onNavigateToConfigData: (r: ConfigData) -> Unit, onNavigateToCreateConfigData: () -> Unit) {
+fun MainScreen(configDatas: MutableList<ConfigData>, onNavigateToConfigData: (r: ConfigData) -> Unit) {
 
     Scaffold(
         topBar = { TopAppBar(title = {Text("Config")}) },
         floatingActionButtonPosition = FabPosition.End,
-        /*floatingActionButton = {
-            FloatingActionButton(onClick = {
-                if (configDatas.isEmpty()) {
-                    onNavigateToCreateConfigData()
-                }
-            }) {
-                if (configDatas.isEmpty()) {
-                    Icon(Icons.Rounded.Add, "Add")
-                }
-            }
-        },*/
+
         content = {
             Column(
                 Modifier

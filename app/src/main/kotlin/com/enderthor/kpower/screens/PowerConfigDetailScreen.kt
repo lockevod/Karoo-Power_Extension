@@ -33,7 +33,6 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
     var rollingResistanceCoefficient by remember { mutableStateOf(configdata.rollingResistanceCoefficient) }
     var dragCoefficient by remember { mutableStateOf(configdata.dragCoefficient) }
     var isActive by remember { mutableStateOf(configdata.isActive) }
-    var deleteDialogVisible by remember { mutableStateOf(false) }
     var powerLoss by remember { mutableStateOf(configdata.powerLoss) }
     var frontalArea by remember { mutableStateOf(configdata.frontalArea) }
     var headwind by remember { mutableStateOf(configdata.headwindconf) }
@@ -59,7 +58,6 @@ fun DetailScreen(isCreating: Boolean, configdata: ConfigData, onSubmit: (updated
             OutlinedTextField(value = bikeMass, modifier = Modifier.fillMaxWidth(),
                 onValueChange = { bikeMass = it },
                 label = { Text("Bike Mass") },
-                suffix = { Text("kg") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )

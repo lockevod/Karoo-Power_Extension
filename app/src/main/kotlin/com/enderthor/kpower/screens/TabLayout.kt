@@ -42,8 +42,9 @@ fun TabLayout(
         }
 
         when (selectedTabIndex) {
-            0 -> ConfigDataAppNavHost()
-            1 -> Help()
+
+            0 -> Help()
+            1 -> ConfigDataAppNavHost()
         }
     }
 }
@@ -60,42 +61,19 @@ fun Help() {
         val helpText = """
             Help for Calculating Cycling Wattage
             
-            To calculate cycling wattage, you need to provide the following parameters:
+            To calculate cycling wattage, you need to add a sensor (scan sensors) and provide the following parameters:
 
-            - **Weight of Bike**: Include the weight of your bike along with any additional gear (in kg).
-            - **Rolling Resistance Coefficient**: Depends on the type of surface and the tires you are using.
-            - **Aerodynamic Drag Coefficient**: Depends on your position on the bike and your frontal area
-            - **Frontal Area**: The area of your body that is exposed to the wind (m2)
-            - **Power Losses**: Includes losses due to chain resistance and derailleur pulleys.
-            - **Headwind**: The wind speed in the opposite direction of your movement. You can insert a constant headwind or check automatic option.
-            - **FTP**: Your Functional Threshold Power (in watts). If you don't know your FTP, you can use the default value of 200 watts.
-            Automatic is not available at this moment (beta) then 0.0 m/s is used.
+            - Weight of Bike: Include the weight of your bike along with any additional gear.
+            - Rolling Resistance Coefficient: Depends on the type of surface and the tires you are using.
+            - Aerodynamic Drag Coefficient: Depends on your position on the bike and your frontal area
+            - Frontal Area: The area of your body that is exposed to the wind (m2)
+            - Power Losses: Includes losses due to chain resistance and derailleur pulleys.
+            - Headwind: The wind speed in the opposite direction of your movement. You can insert a constant headwind, use automatic option with openmeteo or use your api key from openweathermap.
+            - FTP: Your Functional Threshold Power (in watts). If you don't know your FTP, you can use the default value of 200 watts.
+   
+           Read documentation for more information about typical parameters.(github)
+           KPower use your imperial or metric units to calculate the power. Please fill weight in the same unit. 
            
-            Tested with karoo 3 (version > 1.524) and metric configuration.
-
-            Here are some typical values for these parameters:
-
-            _Air Drag / Frontal Area_
-
-            0.25 / 0.30 AEROBARS COM BIKE
-            0.35 / 0.40 DROPS BIKE
-            0.45 / 0.55 HOODS BIKE
-            0.60 / 0.75 TOPS BIKE
-            0.80 / 0.90 MTB BIKE
-
-            _Rolling Resistance_
-            0.0045 TOP RANGE ROAD TIRES
-            0.0065 MEDIUM RANGE ROAD TIRES
-            0.0085 LOW RANGE ROAD TIRES
-            0.0095 MTB TIRES
-
-            _Power Losses_
-            1.0% SRAM CERAMIC / FORCE
-            1.3% SHIMANO ULTEGRA - DURACE
-            2.0% SRAM EAGLE
-            2.2% SHIMANO XTR
-            3%-4% SHIMANO OTHER
-
         """.trimIndent()
         Text(text = helpText)
     }

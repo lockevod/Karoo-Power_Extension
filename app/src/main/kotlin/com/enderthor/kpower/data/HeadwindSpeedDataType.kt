@@ -28,7 +28,6 @@ class HeadwindSpeedDataType(
 
     override fun startStream(emitter: Emitter<StreamState>) {
         Timber.d("Starting stream for $dataTypeId")
-       // Timber.d("Starting stream2 for T")
         val job = CoroutineScope(Dispatchers.IO).launch {
             karooSystem.getHeadingFlow()
                 .filterNotNull()
@@ -45,17 +44,7 @@ class HeadwindSpeedDataType(
 
                     emitter.onNext(StreamState.Streaming(DataPoint(dataTypeId, mapOf(DataType.Field.SINGLE to headwindSpeed))))
                 }
-            /*karooSystem.getRelativeHeadingFlow(context)
-                .filterNotNull()
-                .combine(context.streamCurrentWeatherData()) { value, data -> value to data }
-                .map { (value, wind) -> StreamData(value, wind) }
-                .collect { streamData ->
-                    val windSpeed = streamData.data.current.windSpeed
-                    val windDirection = streamData.value
-                    val headwindSpeed = cos( (windDirection + 180) * Math.PI / 180.0) * windSpeed
-                    Timber.d("$dataTypeId: $headwindSpeed")
-                    emitter.onNext(StreamState.Streaming(DataPoint(dataTypeId, mapOf(DataType.Field.SINGLE to headwindSpeed))))
-                }*/
+
         }
 
         emitter.setCancellable {

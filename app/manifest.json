@@ -1,0 +1,11 @@
+{
+  "label": "Kpower",
+  "packageName": "com.enderthor.kpower",
+  "latestApkUrl": "https://github.com/lockevod/Karoo-Power_Extension/releases/latest/download/kpower.apk",
+  "iconUrl": "https://github.com/lockevod/Karoo-Power_Extension/releases/latest/download/karoo-power_hr.png",
+  "latestVersion": "1.5",
+  "latestVersionCode": 12348,
+  "developer": "Enderthor",
+  "description": "This extension for Karoo devices adds a device simulates a virtual power meter.",
+  "releaseNotes": "Improved formula and added support for Imperial units."
+}

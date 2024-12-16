@@ -14,6 +14,7 @@ data class RealKarooValues(
     val elevation: StreamState? = null,
     val headwind: StreamState? = null,
     val pressure: StreamState? = null,
+    val userWeight: StreamState? = null,
 )
 
 @Serializable

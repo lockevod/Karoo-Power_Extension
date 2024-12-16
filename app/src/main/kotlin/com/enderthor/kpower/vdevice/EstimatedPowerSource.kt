@@ -93,14 +93,24 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
             } catch(e: Throwable){
                 Timber.tag("kpower").e(e, "Failed to read preferences")
             }
+
+            // Load preferences data from Karoo useprofile
             var userMass: Double = 0.0
+            var factorMass: Double = 1.0
+            var factorDistance: Double = 1.0
+            var factorElevation: Double = 1.0
+
+
             karooSystem.connect { connected ->
                 Timber.i("Karoo System connected=$connected")
             }
-            karooSystem.addConsumer { user: UserProfile -> userMass = user.weight.toDouble()
-                Timber.d("User weight loaded as  ${user.weight} $user")
-
+            karooSystem.addConsumer { user: UserProfile ->
+                userMass = user.weight.toDouble()
+                factorMass = if (user.preferredUnit.weight == UserProfile.PreferredUnit.UnitType.IMPERIAL) 0.453592 else 1.0
+                factorDistance = if (user.preferredUnit.distance == UserProfile.PreferredUnit.UnitType.IMPERIAL) 1.60934 else 1.0
+                factorElevation = if (user.preferredUnit.elevation == UserProfile.PreferredUnit.UnitType.IMPERIAL) 0.3048 else 1.0
             }
+              //  Timber.d("User weight loaded as  ${user.weight} $user")
 
             // Start subscribe data from Karoo events
 
@@ -164,13 +174,14 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
 
                     Timber.d("Init data: Speed is $speed, Slope is $slope, Elevation is $elevation, Windspeed is $finalHeadwind")
 
+
                     val powerbike = CyclingWattageEstimator(
                         slope = slope / 100, // convert from percentage
-                        totalMass = userMass + powerconfigs[0].bikeMass.toDouble(),
+                        totalMass = (userMass + powerconfigs[0].bikeMass.toDouble()) * factorMass, // in kg
                         rollingResistanceCoefficient = powerconfigs[0].rollingResistanceCoefficient.toDouble(),
                         dragCoefficient = powerconfigs[0].dragCoefficient.toDouble(),
-                        speed = speed , // in m/s
-                        elevation = elevation,
+                        speed = speed * factorDistance, // in m/s
+                        elevation = elevation * factorElevation, // in m
                         windSpeed = finalHeadwind , // in m/s
                         powerLoss = powerconfigs[0].powerLoss.toDouble() / 100,
                         frontalArea = powerconfigs[0].frontalArea.toDouble(),

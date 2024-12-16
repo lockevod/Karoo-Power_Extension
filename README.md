@@ -90,9 +90,8 @@ A not very good estimation for this is take the value from this https://headwind
 Wind is a very important parameter to get a good estimation. You can use openmeteo, openweathermap or introduce the headwind speed manually.
 If you want to use openweathermap (better because they use near stations), you need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration.
 
-
-
-- Tested only with Karoo 3 and Metric configuration (this will be improved in the future).
+  
+- Tested only with Karoo 3 and Metric configuration, but can be used with Imperial configuration also (not tested)
 
 ## Credits
 

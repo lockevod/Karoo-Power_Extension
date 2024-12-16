@@ -82,7 +82,6 @@ fun KarooSystemService.streamDataFlow(dataTypeId: String): Flow<StreamState> {
     }
 }
 
-
 fun Context.streamCurrentWeatherData(): Flow<OpenMeteoCurrentWeatherResponse> {
     return dataStore.data.map { settingsJson ->
         try {
@@ -121,25 +120,6 @@ fun Context.loadPreferencesFlow(): Flow<List<ConfigData>> {
     }.distinctUntilChanged()
 }
 
-/*fun Context.loadPreferencesFlow(): Flow<List<ConfigData>> = flow {
-    try {
-        val preferences = dataStore.data.first()
-        val jsonString = preferences[preferencesKey]
-        val entries = if (jsonString != null) {
-            jsonWithUnknownKeys.decodeFromString<List<ConfigData>>(jsonString)
-        } else {
-            jsonWithUnknownKeys.decodeFromString<List<ConfigData>>(defaultConfigData)
-        }
-        emit(entries)
-        Timber.d("Preferences loaded in EstimatedPowerSource")
-    } catch (e: Throwable) {
-        Timber.tag("kpower").e(e, "Failed to read preferences")
-        throw e
-    }
-}.distinctUntilChanged().catch { e ->
-    Timber.tag("kpower").e(e, "Error in preferences flow")
-}
-*/
 
 fun Context.parseWeatherResponse(responseString: String): OpenMeteoCurrentWeatherResponse {
     Timber.d("Decoded weather: $responseString")
@@ -176,7 +156,6 @@ fun Context.parseWeatherResponse(responseString: String): OpenMeteoCurrentWeathe
 @OptIn(FlowPreview::class)
 suspend fun KarooSystemService.makeOpenMeteoHttpRequest(gpsCoordinates: GpsCoordinates, isOpenWeather: Boolean, api: String): HttpResponseState.Complete {
     return callbackFlow {
-        // https://open-meteo.com/en/docs#current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=&daily=&location_mode=csv_coordinates&timeformat=unixtime&forecast_days=3
 
         val url = if(isOpenWeather && api.trim().isNotEmpty())  "https://api.openweathermap.org/data/2.5/weather?lat=${gpsCoordinates.lat}&lon=${gpsCoordinates.lon}&appid=$api"
         else "https://api.open-meteo.com/v1/forecast?latitude=${gpsCoordinates.lat}&longitude=${gpsCoordinates.lon}&current=wind_speed_10m,wind_direction_10m&timeformat=unixtime&wind_speed_unit=ms"
@@ -207,41 +186,7 @@ suspend fun KarooSystemService.makeOpenMeteoHttpRequest(gpsCoordinates: GpsCoord
         }
     }.single()
 }
-/*
-fun signedAngleDifference(angle1: Double, angle2: Double): Double {
-    val a1 = angle1 % 360
-    val a2 = angle2 % 360
-    var diff = abs(a1 - a2)
 
-    val sign = if (a1 < a2) {
-        if (diff > 180.0) -1 else 1
-    } else {
-        if (diff > 180.0) 1 else -1
-    }
-
-    if (diff > 180.0) {
-        diff = 360.0 - diff
-    }
-
-    return sign * diff
-}
-
-@OptIn(FlowPreview::class)
-fun KarooSystemService.getRelativeHeadingFlow(context: Context): Flow<Double> {
-    val currentWeatherData = context.streamCurrentWeatherData()
-    return getHeadingFlow()
-        .filter { it >= 0 }
-        .combine(currentWeatherData) { bearing, data -> bearing to data }
-        .map { (bearing, data) ->
-            val windBearing = data.current.windDirection + 180
-
-            val diff = signedAngleDifference(bearing, windBearing)
-            Timber.d("Wind bearing: $bearing vs $windBearing => $diff")
-
-            diff
-        }
-}
-*/
 @OptIn(FlowPreview::class)
 fun KarooSystemService.getHeadingFlow(): Flow<Double> {
     //return flowOf(20.0)
@@ -264,7 +209,7 @@ fun KarooSystemService.getHeadingFlow(): Flow<Double> {
 
 @OptIn(FlowPreview::class)
 fun KarooSystemService.getGpsCoordinateFlow(): Flow<GpsCoordinates> {
-    // return flowOf(GpsCoordinates(52.5164069,13.3784))
+
 
     return streamDataFlow("TYPE_LOCATION_ID")
         .mapNotNull { (it as? StreamState.Streaming)?.dataPoint?.values }
