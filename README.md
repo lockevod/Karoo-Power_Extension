@@ -31,38 +31,39 @@ Power is an estimation and you need this parameters correct to get a good estima
 
 To calculate cycling wattage, you need to provide the following parameters:
 
-            - **Weight of Bike**: Include the weight of your bike along with any additional gear (in kg).
-            - **Rolling Resistance Coefficient**: Depends on the type of surface and the tires you are using.
-            - **Aerodynamic Drag Coefficient**: Depends on your position on the bike and your frontal area
-            - **Frontal Area**: The area of your body that is exposed to the wind (m2)
-            - **Power Losses**: Includes losses due to chain resistance and derailleur pulleys.
-            - **Headwind**: The wind speed in the opposite direction of your movement. You can insert a constant headwind or check automatic option.
-            - **FTP**: Your Functional Threshold Power (in watts). If you don't know your FTP, you can use the default value of 200 watts.
-            - **Wind API Key**: You can use openweathermap to get the wind speed. You need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration.
-            If you select automatic option, the app will get the wind speed from openweathermap (you need to select openweather option also) or openmeteo. 
+- **Weight of Bike**: Include the weight of your bike along with any additional gear (in kg).
+- **Rolling Resistance Coefficient**: Depends on the type of surface and the tires you are using.
+- **Aerodynamic Drag Coefficient**: Depends on your position on the bike and your frontal area
+- **Frontal Area**: The area of your body that is exposed to the wind (m2)
+- **Power Losses**: Includes losses due to chain resistance and derailleur pulleys.
+- **Headwind**: The wind speed in the opposite direction of your movement. You can insert a constant headwind or check automatic option.
+- **FTP**: Your Functional Threshold Power (in watts). If you don't know your FTP, you can use the default value of 200 watts.
+- **Wind API Key**: You can use openweathermap to get the wind speed. You need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration.
 
-            Here are some typical values for these parameters:
+If you select automatic option, the app will get the wind speed from openweathermap (you need to select openweather option also) or openmeteo. 
 
-            _Air Drag / Frontal Area_
+Here are some typical values for these parameters:
 
-            0.25 / 0.30 AEROBARS COM BIKE
-            0.35 / 0.40 DROPS BIKE
-            0.45 / 0.55 HOODS BIKE
-            0.60 / 0.75 TOPS BIKE
-            0.80 / 0.90 MTB BIKE
+_Air Drag / Frontal Area_
 
-            _Rolling Resistance_
-            0.0045 TOP RANGE ROAD TIRES
-            0.0065 MEDIUM RANGE ROAD TIRES
-            0.0085 LOW RANGE ROAD TIRES
-            0.0095 MTB TIRES
+0.25 / 0.30 AEROBARS COM BIKE
+0.35 / 0.40 DROPS BIKE
+0.45 / 0.55 HOODS BIKE
+0.60 / 0.75 TOPS BIKE
+0.80 / 0.90 MTB BIKE
 
-            _Power Losses_
-            1.0% SRAM CERAMIC / FORCE
-            1.3% SHIMANO ULTEGRA - DURACE
-            2.0% SRAM EAGLE
-            2.2% SHIMANO XTR
-            3%-4% SHIMANO OTHER
+_Rolling Resistance_
+0.0045 TOP RANGE ROAD TIRES
+0.0065 MEDIUM RANGE ROAD TIRES
+0.0085 LOW RANGE ROAD TIRES
+0.0095 MTB TIRES
+
+_Power Losses_
+1.0% SRAM CERAMIC / FORCE
+1.3% SHIMANO ULTEGRA - DURACE
+2.0% SRAM EAGLE
+2.2% SHIMANO XTR
+3%-4% SHIMANO OTHER
 
 FTP is necessary to smooth the power estimation. If you don't know your FTP, you can use the following formula to get an estimation:
 FTP = 0.95 * 20 minutes power  or use a value between 150 and 200 watts and adjust it later.
