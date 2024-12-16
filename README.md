@@ -44,25 +44,38 @@ If you select automatic option, the app will get the wind speed from openweather
 
 Here are some typical values for these parameters:
 
-_Air Drag / Frontal Area_
+**Air Drag / Frontal Area**
 
 0.25 / 0.30 AEROBARS COM BIKE
+
 0.35 / 0.40 DROPS BIKE
+
 0.45 / 0.55 HOODS BIKE
+
 0.60 / 0.75 TOPS BIKE
-0.80 / 0.90 MTB BIKE
 
-_Rolling Resistance_
+0.80 / 0.90 MTB BIKE 
+
+**Rolling Resistance**
+
 0.0045 TOP RANGE ROAD TIRES
-0.0065 MEDIUM RANGE ROAD TIRES
-0.0085 LOW RANGE ROAD TIRES
-0.0095 MTB TIRES
 
-_Power Losses_
+0.0065 MEDIUM RANGE ROAD TIRES 
+
+0.0085 LOW RANGE ROAD TIRES 
+
+0.0095 MTB TIRES 
+
+**Power Losses**
+
 1.0% SRAM CERAMIC / FORCE
+
 1.3% SHIMANO ULTEGRA - DURACE
+
 2.0% SRAM EAGLE
+
 2.2% SHIMANO XTR
+
 3%-4% SHIMANO OTHER
 
 FTP is necessary to smooth the power estimation. If you don't know your FTP, you can use the following formula to get an estimation:
