@@ -82,7 +82,7 @@ FTP is necessary to smooth the power estimation. If you don't know your FTP, you
 FTP = 0.95 * 20 minutes power  or use a value between 150 and 200 watts and adjust it later.
 
 2- Kpower emulates a real power meter, then you need to add this power meter in the sensors configuration. 
-Start scan and you will see the power meter and you'll see a new category (looks like a puzzle piece). 
+Start scan and  you'll see a new category (looks like a puzzle piece), select the powermeter.
 
 3- Kpower will show you the power estimation in the power fields. You can use the power fields in the data screens, in the workout builder, etc. It's like a real power meter.
 
