@@ -32,7 +32,7 @@ Power is an estimation and you need this parameters correct to get a good estima
 To calculate cycling wattage, you need to provide the following parameters:
 
 - **Weight of Bike**: Include the weight of your bike along with any additional gear (in kg).
-- **Rolling Resistance Coefficient**: Depends on the type of surface and the tires you are using.
+- **Rolling Resistance Coefficient**: Depends on the type of surface and the tires you are using. You can use info from here https://www.bicyclerollingresistance.com/ 
 - **Aerodynamic Drag Coefficient**: Depends on your position on the bike and your frontal area
 - **Frontal Area**: The area of your body that is exposed to the wind (m2)
 - **Power Losses**: Includes losses due to chain resistance and derailleur pulleys.
@@ -65,6 +65,8 @@ Here are some typical values for these parameters:
 0.0085 LOW RANGE ROAD TIRES 
 
 0.0095 MTB TIRES 
+
+Check https://www.bicyclerollingresistance.com/
 
 **Power Losses**
 
