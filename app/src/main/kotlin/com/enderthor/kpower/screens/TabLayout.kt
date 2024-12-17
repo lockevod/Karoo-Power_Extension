@@ -43,8 +43,9 @@ fun TabLayout(
 
         when (selectedTabIndex) {
 
-            0 -> Help()
-            1 -> ConfigDataAppNavHost()
+            0 -> ConfigDataAppNavHost()
+            1 -> Help()
+
         }
     }
 }
