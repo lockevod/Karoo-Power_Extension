@@ -38,7 +38,7 @@ To calculate cycling wattage, you need to provide the following parameters:
 - **Power Losses**: Includes losses due to chain resistance and derailleur pulleys.
 - **Headwind**: The wind speed in the opposite direction of your movement. You can insert a constant headwind or check automatic option.
 - **FTP**: Your Functional Threshold Power (in watts). If you don't know your FTP, you can use the default value of 200 watts.
-- **Wind API Key**: You can use openweathermap to get the wind speed. You need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration.
+- **Wind API Key**: You can use openweathermap to get the wind speed. You need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration. Openweathermap is most acurate than Openmeteo
 
 If you select automatic option, the app will get the wind speed from openweathermap (you need to select openweather option also) or openmeteo. 
 
