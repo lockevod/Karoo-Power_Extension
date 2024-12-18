@@ -125,6 +125,10 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
                 mutableState.update { currentState -> currentState.copy(elevation = event.state) }
             }
 
+            karooSystem.addConsumer(OnStreamState.StartStreaming(DataType.Type.CADENCE)) { event: OnStreamState ->
+                mutableState.update { currentState -> currentState.copy(cadence = event.state) }
+            }
+
             karooSystem.addConsumer(OnStreamState.StartStreaming(DataType.dataTypeId(extension, "powerheadwind"))) { event: OnStreamState ->
                 mutableState.update { currentState -> currentState.copy(headwind = event.state) }
             }
@@ -134,6 +138,14 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
 
                     var speed = if (state.value.speed is StreamState.Streaming ) {
                         (state.value.speed as StreamState.Streaming).dataPoint.singleValue
+                            ?: 0.0
+                    } else {
+                        0.0
+
+                    }
+
+                    var cadence = if (state.value.cadence is StreamState.Streaming ) {
+                        (state.value.cadence as StreamState.Streaming).dataPoint.singleValue
                             ?: 0.0
                     } else {
                         0.0
@@ -185,7 +197,8 @@ class EstimatedPowerSource(extension: String,  private val hr: Int ,private val 
                         windSpeed = finalHeadwind , // in m/s
                         powerLoss = powerconfigs[0].powerLoss.toDouble() / 100,
                         frontalArea = powerconfigs[0].frontalArea.toDouble(),
-                        ftp = powerconfigs[0].ftp.toDouble()
+                        ftp = powerconfigs[0].ftp.toDouble(),
+                        cadence = cadence
                     )
                     Timber.d("Out Estimated Power is ${powerbike.calculateCyclingWattage()}")
                     emitter.onNext(

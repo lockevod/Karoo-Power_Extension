@@ -20,10 +20,15 @@ class CyclingWattageEstimator(
     private val windSpeed: Double,
     private val powerLoss: Double,
     private val elevation: Double,
-    private val ftp: Double
+    private val ftp: Double,
+    private val cadence: Double
 ) {
 
     fun smoothPower(estimatedPower: Double): Double {
+        if (cadence < 15 && slope <= 1.0) {
+            return 0.0
+        }
+
         val factor = when {
             estimatedPower < 210 -> 2.8
             estimatedPower <= 300 -> 2.5

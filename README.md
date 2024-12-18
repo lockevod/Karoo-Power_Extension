@@ -96,6 +96,8 @@ This release has the following new features:
 - Added wind speed parameter with openmeteo (from Timklge repository headwind).
 - Added FTP to smooth the power estimation.
 - Added wind speed using openweathermap.
+- Added cadence to discard some power estimations (cadence lower than 10 rpm when you don't go uphill ). Cadence is better estimator than speed, but we cannot use directly because we need to know torque (and don't have this value)
+But we can use cadence to discard some bad estimations (when you go down a hill, for example, and you don't pedal).
   
 ## Known issues
 
@@ -106,10 +108,11 @@ A not very good estimation for this is take the value from this https://headwind
 Wind is a very important parameter to get a good estimation. You can use openmeteo, openweathermap or introduce the headwind speed manually.
 If you want to use openweathermap (better because they use near stations), you need to get an API key from openweathermap (free but you need to create an account) and introduce it in the configuration.
 
-- Power meter use values from Karoo (real), sometimes Karoo has some "delays/lags" or Karoo expose bad information (for example, current slope grade) then Power Meter will estimate not accurate values. Most of times 5-10 seconds later all is fine ;) 
-
+- Power meter use values from Karoo (real), sometimes Karoo has some "delays/lags" or Karoo expose bad information (for example, current slope grade) then Power Meter will estimate not accurate values. Most of times 5-10 seconds later all is fine ;)
   
 - Tested only with Karoo 3 and Metric configuration, but can be used with Imperial configuration also (not tested)
+
+- Sometimes it's necessary to rescan virtual power sensor when you update this extension. If you don't see the power meter active, remove current power meter and re-add.
 
 ## Credits
 

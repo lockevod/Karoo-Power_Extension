@@ -12,6 +12,7 @@ data class RealKarooValues(
     val speed: StreamState? = null,
     val slope: StreamState? = null,
     val elevation: StreamState? = null,
+    val cadence: StreamState? = null,
     val headwind: StreamState? = null,
     val pressure: StreamState? = null,
     val userWeight: StreamState? = null,
