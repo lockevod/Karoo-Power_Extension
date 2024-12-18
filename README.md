@@ -1,7 +1,7 @@
 # Karoo Power Extension
 
 > [!WARNING]  
-> This app is currently in beta stage and its main features might not work fine.
+> The KPower extension is this new link https://github.com/lockevod/Karoo-KPower 
 
 This extension for Karoo devices adds a device simulates a virtual power meter. You only need to add this power meter (settings -> sensors) and you can use all power fields.
 
